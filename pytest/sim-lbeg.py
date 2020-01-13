@@ -7,12 +7,12 @@ import sys
 import os
 # define directory to packages and append to $PATH
 par_dir = os.path.abspath(os.path.pardir)
-print par_dir
+print(par_dir)
 lib_dir = os.path.join(par_dir,"bin")
-print lib_dir
+print(lib_dir)
 sys.path.append(lib_dir)
 pkg_dir = os.path.join(par_dir,"pylib")
-print pkg_dir
+print(pkg_dir)
 sys.path.append(pkg_dir)
 
 #import additional python packages
@@ -39,19 +39,19 @@ dbconn1 = hps.DBConnection(db_dir, dbs, lib_dir, 'libsqliteext')
 dbconn1.print_libs()
 dbconn1.print_dbs()
 dbconn1.clear_model_index()
-print "*** dB connection established ***"
+print("*** dB connection established ***")
 
 ################################################################################
 # create beamline
 bl = hps.BeamLine()
 beamline = hps.get_element_list()
-print "*** Beamline created ***"
+print("*** Beamline created ***")
 
 ################################################################################
 # create table of beamline elements at lengths
 pybl = pydb.Db_bl(db_dir, dbs)
 py_beamline = pybl.get_bl_elem_len()
-print "*** PySQLite Beamline created ***"
+print("*** PySQLite Beamline created ***")
 
 ################################################################################
 # create H- beam
@@ -66,26 +66,26 @@ beam.set_ref_w(0.750)
 beam.set_ref_phi(phi_offset)
 beam.translate('phi', phi_offset)
 beam.save_initial_beam()
-print "*** H- Beam created ***"
+print("*** H- Beam created ***")
 
 ################################################################################
 # create spacecharge
 spch = hps.SpaceCharge(nr = 32, nz = 128, interval = 0.025, adj_bunch = 3)
-print "spch interval=", spch.get_interval()
-print "adj_bunch=", spch.get_adj_bunch()
+print("spch interval=", spch.get_interval())
+print("adj_bunch=", spch.get_adj_bunch())
 # define at what energy simulation stops using adjacent bunches in SC calc
 spch.set_adj_bunch_cutoff_w(0.8)
 # remeshing factor determines how ofter the mesh gets recalc vs scaled for SC kick
 spch.set_remesh_threshold(0.02)
 #spch.set_remesh_threshold(0.2)
-print "cutoff w=", spch.get_adj_bunch_cutoff_w()
-print "*** Space Charge Initialized ***"
+print("cutoff w=", spch.get_adj_bunch_cutoff_w())
+print("*** Space Charge Initialized ***")
 
 ################################################################################
 # create simulator
 sim = hps.Simulator(beam)
 sim.set_space_charge('on')
-print "*** Simulator Initialized ***"
+print("*** Simulator Initialized ***")
 
 ################################################################################
 # STANDARD AND REQUIRED STUFF ABOVE THIS LINE
@@ -95,12 +95,12 @@ SIM_STOP = '48DT'
 ENERGY_CUTOFF = 0.0
 mask = gmask = beam.get_good_mask()
 
-print "*** Input Beam ***"
-print SIM_START
-print "w/user units"
+print("*** Input Beam ***")
+print(SIM_START)
+print("w/user units")
 beam.print_results()
 
-print "*** Starting Simulation ***\n"
+print("*** Starting Simulation ***\n")
 sim.simulate(SIM_START, SIM_STOP)
 
 # determine mask of particles used in analysis and plotting
@@ -108,9 +108,9 @@ wmask = beam.get_mask_with_limits('w', lolim = ENERGY_CUTOFF)
 gmask = beam.get_good_mask(wmask)
 mask = gmask
 
-print "*** Output Beam ***"
-print SIM_STOP
-print "w/user units"
+print("*** Output Beam ***")
+print(SIM_STOP)
+print("w/user units")
 beam.print_results(mask)
 
 # create output plot

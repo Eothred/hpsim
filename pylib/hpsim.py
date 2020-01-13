@@ -91,7 +91,7 @@ class Beam():
                            current = beam_current, num = number of particles)
 
         """
-        if 'file' in args.keys():
+        if 'file' in list(args.keys()):
             # create beam based upon contents of file
             if os.path.isfile(args['file']):
                 self.beam = HPSim.Beam(file = args['file'])
@@ -99,7 +99,7 @@ class Beam():
                 self.initial_frequency = self.beam.get_frequency()
                 self.initial_gd_size = self.beam.get_size() - self.beam.get_loss_num()
             else:
-                print 'Input beam file, "',args['file'],'" not found! Exiting'
+                print('Input beam file, "',args['file'],'" not found! Exiting')
                 exit()
         else:
             # create beam from supplied arguments
@@ -421,8 +421,8 @@ class Beam():
             else:
                 coor = eval(request)
         else:
-            print "Error: Empty array returned, variable", \
-            str.upper(var), "not recognized"
+            print("Error: Empty array returned, variable", \
+            str.upper(var), "not recognized")
             return np.array([])
         return coor
 
@@ -443,8 +443,8 @@ class Beam():
             else:
                 return np.mean(self.get_coor(lc_var, mask))
         else:
-            print "Error: Average not found. Variable", \
-            str.upper(var), "not recognized"
+            print("Error: Average not found. Variable", \
+            str.upper(var), "not recognized")
             return float('nan')
 
     def get_sig(self, var, mask = None):
@@ -467,8 +467,8 @@ class Beam():
             else:
                 return np.std(self.get_coor(lc_var, mask))
         else:
-            print "Error: Sigma not found. Variable", \
-            str.upper(var), "not recognized"
+            print("Error: Sigma not found. Variable", \
+            str.upper(var), "not recognized")
             return float('nan')
     
     def get_twiss(self, var, mask = None):
@@ -541,7 +541,7 @@ class Beam():
         elif lc_var in _LOSSES:
             request += "()"
         else:
-            print "Error: Empty masked returned, variable", str.upper(var), "not recognized"
+            print("Error: Empty masked returned, variable", str.upper(var), "not recognized")
             return np.array([])
 
         aray = eval(request)
@@ -653,45 +653,45 @@ class Beam():
         Arguments:
            mask (Numpy vector, optional): mask used to select particles
         """
-        print "Distribution Analysis Results (w/user units)"
-        print 'Mass = {0:.4f}'.format(self.get_mass())
-        print 'Charge/|e| = {0:.0f}'.format(self.get_charge())
-        print 'Ib = {0:.2f} {1}'.format(self.get_current(mask), _USER_LABELS['i'])
-        print 'Frequency = {0:.3f} MHz'.format(self.get_frequency())
+        print("Distribution Analysis Results (w/user units)")
+        print('Mass = {0:.4f}'.format(self.get_mass()))
+        print('Charge/|e| = {0:.0f}'.format(self.get_charge()))
+        print('Ib = {0:.2f} {1}'.format(self.get_current(mask), _USER_LABELS['i']))
+        print('Frequency = {0:.3f} MHz'.format(self.get_frequency()))
         if mask is not None:
-            print '*** Mask applied ***'
-            print 'Number of macroparticles(mask) = {0:.0f}'.format(self.get_size(mask))
-            print 'Number of macroparticles lost  = {0:.0f}'.format(self.beam.get_loss_num())
+            print('*** Mask applied ***')
+            print('Number of macroparticles(mask) = {0:.0f}'.format(self.get_size(mask)))
+            print('Number of macroparticles lost  = {0:.0f}'.format(self.beam.get_loss_num()))
         else:
-            print '*** No Mask applied ***'
-            print 'Number of macroparticles(good) = {0:.0f}'.format(self.get_size())
-            print 'Number of macroparticles lost  = {0:.0f}'.format(self.beam.get_loss_num())
+            print('*** No Mask applied ***')
+            print('Number of macroparticles(good) = {0:.0f}'.format(self.get_size()))
+            print('Number of macroparticles lost  = {0:.0f}'.format(self.beam.get_loss_num()))
 
-        print 'Ref part. \n phi = {0:10.4f} {1}\n   w = {2:10.4f} {3}'.\
+        print('Ref part. \n phi = {0:10.4f} {1}\n   w = {2:10.4f} {3}'.\
             format(self.get_ref_phi(), _USER_LABELS['phi'],
-                   self.get_ref_w(), _USER_LABELS['w'])
+                   self.get_ref_w(), _USER_LABELS['w']))
         if self.get_size(mask) > 0:
-            print '\nCentroids and RMS sizes'
-            print '            Avg         Sigma'
+            print('\nCentroids and RMS sizes')
+            print('            Avg         Sigma')
             for item in _COORDINATES:
-                print '{0:3}: {1:12.4f}    {2:10.4f} {3:3}'\
+                print('{0:3}: {1:12.4f}    {2:10.4f} {3:3}'\
                     .format(item, self.get_avg(item, mask),
-                        self.get_sig(item, mask), _USER_LABELS[item])
-            print '\nTwiss parameters'
+                        self.get_sig(item, mask), _USER_LABELS[item]))
+            print('\nTwiss parameters')
 
-            print '          Alpha       Beta       Eurms       Enrms'
+            print('          Alpha       Beta       Eurms       Enrms')
             for item in _EMITTANCE:
                 a, b, eurms = self.get_twiss(item, mask)
-                if item <> _EMITTANCE[-1]:
-                    print '{0:2}: {1:11.4f} {2:11.4f} {3:11.4f} {4:11.5f}'\
-                        .format(item, a, b, eurms, self.get_nrms_emit(item, mask))
+                if item != _EMITTANCE[-1]:
+                    print('{0:2}: {1:11.4f} {2:11.4f} {3:11.4f} {4:11.5f}'\
+                        .format(item, a, b, eurms, self.get_nrms_emit(item, mask)))
                 else: #no normalized long emit
-                    print '{0:2}: {1:11.4f} {2:11.4f} {3:11.4f}'\
-                        .format(item, a, b, eurms)                 
-            print '\n'
+                    print('{0:2}: {1:11.4f} {2:11.4f} {3:11.4f}'\
+                        .format(item, a, b, eurms))                 
+            print('\n')
         else:
-            print '\n*** No particles remaining ****'
-            print '\n'
+            print('\n*** No particles remaining ****')
+            print('\n')
         return
     
 ################################################################################
@@ -701,7 +701,7 @@ class Distribution():
     Faster for analysis and plotting than using beam array
     """
 
-    coor_index = dict(zip(_COORDINATES + _LOSSES, range(0, len(_COORDINATES + _LOSSES))))
+    coor_index = dict(list(zip(_COORDINATES + _LOSSES, list(range(0, len(_COORDINATES + _LOSSES))))))
     def __init__(self, beam, mask = None):
         """Init creates an instance of the Distribution object containing all 
         the vectors of coordinates from the beam object that satisfy the mask
@@ -783,8 +783,8 @@ class Distribution():
             ndx = Distribution.coor_index[var]
             return self.coor[ndx]
         else:
-            print "Error: Empty masked returned, variable", \
-            str.upper(var), "not recognized"
+            print("Error: Empty masked returned, variable", \
+            str.upper(var), "not recognized")
             return np.array([])
 
     def get_loss_num(self):
@@ -821,8 +821,8 @@ class Distribution():
                 #print "Error: " + str.upper(var) + " emittance undefined"
                 return 3*[float('NaN')]
         else:
-            print "Error: Requested coordinate, " + str.upper(var) + \
-                ", must be one of the following:", _EMITTANCE
+            print("Error: Requested coordinate, " + str.upper(var) + \
+                ", must be one of the following:", _EMITTANCE)
             return 3*[float('NaN')]       
 
     def get_urms_emit(self, var):
@@ -839,35 +839,35 @@ class Distribution():
 
     def print_results(self):
         """Prints avg, sigma, alpha, beta, Eurms, Enrms for all coord of distr"""
-        print "Distribution Analysis Results (w/user units)"
-        print 'Mass = {0:.4f}'.format(self.get_mass())
-        print 'Charge/|e| = {0:.0f}'.format(self.get_charge())
-        print 'Ib = {0:.2f} {1}'.format(self.get_current(), _USER_LABELS['i'])
-        print 'Number of macroparticles = {0:.0f}'.format(self.get_size())
-        print 'Frequency = {0:.3f} MHz'.format(self.get_frequency())
-        print '*** Mask may have been applied to create Distribution object ***'
-        print 'Number of macroparticles(in distrubution object) = {0:.0f}'.format(self.get_size())
-        print 'Number of macroparticles lost (in distribution object) = {0:.0f}'.format(self.get_loss_num())
-        print 'Ref part. \n phi = {0:10.4f} {1}\n   w = {2:10.4f} {3}'.\
+        print("Distribution Analysis Results (w/user units)")
+        print('Mass = {0:.4f}'.format(self.get_mass()))
+        print('Charge/|e| = {0:.0f}'.format(self.get_charge()))
+        print('Ib = {0:.2f} {1}'.format(self.get_current(), _USER_LABELS['i']))
+        print('Number of macroparticles = {0:.0f}'.format(self.get_size()))
+        print('Frequency = {0:.3f} MHz'.format(self.get_frequency()))
+        print('*** Mask may have been applied to create Distribution object ***')
+        print('Number of macroparticles(in distrubution object) = {0:.0f}'.format(self.get_size()))
+        print('Number of macroparticles lost (in distribution object) = {0:.0f}'.format(self.get_loss_num()))
+        print('Ref part. \n phi = {0:10.4f} {1}\n   w = {2:10.4f} {3}'.\
             format(self.get_ref_phi(), _USER_LABELS['phi'],
-                   self.get_ref_w(), _USER_LABELS['w'])
+                   self.get_ref_w(), _USER_LABELS['w']))
         if self.get_size() > 0:
-            print '\nCentroids and RMS sizes'
-            print '            Avg         Sigma'
+            print('\nCentroids and RMS sizes')
+            print('            Avg         Sigma')
             for item in _COORDINATES:
-                print '{0:3}: {1:10.4f}    {2:10.4f} {3:3}'\
+                print('{0:3}: {1:10.4f}    {2:10.4f} {3:3}'\
                     .format(item, self.get_avg(item),
-                            self.get_sig(item), _USER_LABELS[item])
-            print '\nTwiss parameters'
-            print '         Alpha      Beta      Eurms      Enrms'
+                            self.get_sig(item), _USER_LABELS[item]))
+            print('\nTwiss parameters')
+            print('         Alpha      Beta      Eurms      Enrms')
             for item in _EMITTANCE:
                 a, b, eurms = self.get_twiss(item)
-                print '{0:2}: {1:10.4f} {2:10.4f} {3:10.4f} {4:11.5f}'\
-                    .format(item, a, b, eurms, self.get_nrms_emit(item))
-            print '\n'
+                print('{0:2}: {1:10.4f} {2:10.4f} {3:10.4f} {4:11.5f}'\
+                    .format(item, a, b, eurms, self.get_nrms_emit(item)))
+            print('\n')
         else:
-            print '\n*** No particles remaining ****'
-            print '\n'
+            print('\n*** No particles remaining ****')
+            print('\n')
         return 
         
 ################################################################################
@@ -1153,7 +1153,7 @@ class BeamPlot():
 
         self.nrow = nrow
         self.ncol = ncol
-        print '{0:2} x {1:2} BeamPlot object created'.format(self.nrow, self.ncol)
+        print('{0:2} x {1:2} BeamPlot object created'.format(self.nrow, self.ncol))
 
     def title(self, title):
         """Place title string in window bar
@@ -1400,7 +1400,7 @@ class DistPlot():
 
         self.nrow = nrow
         self.ncol = ncol
-        print '{0:2} x {1:2} DistPlot object created'.format(self.nrow, self.ncol)
+        print('{0:2} x {1:2} DistPlot object created'.format(self.nrow, self.ncol))
 
     def title(self, title):
         """Place title string in window bar"""
@@ -1646,13 +1646,13 @@ class DBState():
             val = get_db_epics(pv)
             db_array.append([pv, val])
         self.db_array = db_array
-        print "*** dB PV's stored in state object ***"
+        print("*** dB PV's stored in state object ***")
         if file is not None:
             # store db_pvs in file
             fid = open(file,'w')
             fid.write(self.db_array)
             fid.close()
-            print "*** dB PV's written to file: ", file, " ***"
+            print("*** dB PV's written to file: ", file, " ***")
             
     def restore_db_pvs(self, file = None):
         """Restore EPICS PV in file or DBState object back into dB
@@ -1670,13 +1670,13 @@ class DBState():
             for item in self.db_array:
                 pv, val = item
                 set_db_epics(pv, val)
-                print "*** dB PV's restored from file: ", file, " ***"
+                print("*** dB PV's restored from file: ", file, " ***")
         else:
             # restore from db_array object
             for item in self.db_array:
                 pv, val = item
                 set_db_epics(pv, val)
-                print "*** dB PV's restored from db_array object ***"
+                print("*** dB PV's restored from db_array object ***")
 
     def print_pvs(self, pvname = None):
         """Print vals of EPICS PVs in DBState object that correspond to pvname
@@ -1686,15 +1686,15 @@ class DBState():
            pvname (str, optional): print value of named Epics PV
 
         """
-        print '*** PV vals in state object ***'
+        print('*** PV vals in state object ***')
         if pvname is not None:
             loc_pv = lcs.expand_pv(pvname)
         for item in self.db_array:
             pv, val = item
             if pvname is None:
-                print '{0} = {1}'.format(pv, val)
+                print('{0} = {1}'.format(pv, val))
             elif pv[0:len(loc_pv)] == loc_pv:
-                print '{0} = {1}'.format(pv, val)
+                print('{0} = {1}'.format(pv, val))
 
     def turn_off(self, pv_name):
         """Set all PV's with name pv_name to val of zero
@@ -1862,7 +1862,7 @@ def get_element_list(start_elem_name = None, end_elem_name = None, elem_type = N
                         'dtl-gap':'RFGap-DTL', 'ccl-gap':'RFGap-CCL',\
                         'rotation':'Rotation', 'spch_comp':'SpchComp'}
 
-    if elem_type in elem_type_dict.keys():
+    if elem_type in list(elem_type_dict.keys()):
         elem_type_resolved = elem_type_dict[elem_type]
     else:
         elem_type_resolved = elem_type
@@ -1935,7 +1935,7 @@ def get_beamline_midpoints():
         elem_length = get_element_length(elem)
         midpoints.append(bl_length + 0.5 * elem_length)
         bl_length += elem_length
-        print i,elem, elem_length, midpoints[-1], bl_length
+        print(i,elem, elem_length, midpoints[-1], bl_length)
     return
 
 def get_first_element():
@@ -1965,7 +1965,7 @@ def get_next_element(elem_name):
         else:
             return None
     else:
-        print elem_name, "not found in beamline list"
+        print(elem_name, "not found in beamline list")
 
 def get_mmf(twiss1, twiss2):
     """Returns the MisMatch Factor between to sets of Twiss parameters
@@ -2038,7 +2038,7 @@ def _get_plimits(limits, u_coor, v_coor):
     if limits not in [None, []]:
         if isinstance(limits[0], list):
             #list of lists [[xmin, xmax],[ymin, ymax]]
-            if limits[0] <> []:
+            if limits[0] != []:
                 min_x = limits[0][0]
                 max_x = limits[0][1]
             else:
@@ -2048,7 +2048,7 @@ def _get_plimits(limits, u_coor, v_coor):
                     min_x = u_coor *0.9
                     max_x = u_coor *1.1
 
-            if limits[1] <> []:
+            if limits[1] != []:
                 min_y = limits[1][0]
                 max_y = limits[1][1]
             else:
