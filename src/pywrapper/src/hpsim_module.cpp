@@ -297,7 +297,7 @@ static PyObject* GetDbEPICS(PyObject* self, PyObject* args)
       {
         std::string value_str;
         value_str = value_trpl[0];
-        return PyString_FromString(value_str.c_str());
+        return PyBytes_FromString(value_str.c_str());
       }
     }// for dbs_indx
     std::cerr << "Error in get_db_epics : can't find pv: " << pv_name << ", or this record has a NULL value " << std::endl;  
@@ -349,7 +349,7 @@ static PyObject* GetDbModel(PyObject* self, PyObject* args)
             " where name = '" + std::string(record_name) + "'";
           std::string value_str = GetDataFromDB(dbconn->db_conn, sql.c_str());
           if(value_str != "")
-            return PyString_FromString(value_str.c_str());            
+            return PyBytes_FromString(value_str.c_str());            
           else
             saindx++;
         }
@@ -388,7 +388,7 @@ static PyObject* GetElementList(PyObject* self, PyObject* args, PyObject* kwds)
     {
       PyObject* elem_lst = PyList_New(names.size());
       for(int i = 0; i < names.size(); ++i)
-        PyList_SetItem(elem_lst, i, PyString_FromString(names[i].c_str()));
+        PyList_SetItem(elem_lst, i, PyBytes_FromString(names[i].c_str()));
       return elem_lst;
     }
   }
@@ -407,9 +407,21 @@ static PyMethodDef HPSimModuleMethods[]={
   {NULL}
 };
 
+static struct PyModuleDef HPSimModuleDef = {
+    PyModuleDef_HEAD_INIT,
+    "HPSim",
+    NULL,
+    -1,
+    HPSimModuleMethods,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+};
+
 PyMODINIT_FUNC initHPSim()
 {
-  PyObject* module = Py_InitModule("HPSim", HPSimModuleMethods);
+  PyObject* module = PyModule_Create(&HPSimModuleDef);
   import_array();
   initBeam(module);
   initDBConnection(module);

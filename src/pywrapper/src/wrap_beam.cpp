@@ -52,7 +52,7 @@ static int BeamInit(CPPClassObject* self, PyObject* args, PyObject* kwds)
 static void BeamDel(CPPClassObject* self)
 {
   delete (Beam*)(self->cpp_obj);
-  self->ob_type->tp_free((PyObject*) self);
+  Py_TYPE(self)->tp_free((PyObject*) self);
 }
 
 PyDoc_STRVAR(set_distribution__doc__,
@@ -102,14 +102,14 @@ static PyObject* BeamSetDistribution(PyObject* self, PyObject* args)
   {
     loss_c.resize(len, 0);
     for(int i = 0; i < PyList_Size(x); ++i) 
-      loss_c[i] = (uint) PyInt_AsLong(PyList_GetItem(loss, i)); 
+      loss_c[i] = (uint) PyLong_AsLong(PyList_GetItem(loss, i));
     loss_ptr = &loss_c;
   }
   if(lloss != NULL)
   {
     lloss_c.resize(len, 0);
     for(int i = 0; i < PyList_Size(x); ++i) 
-      lloss_c[i] = (uint) PyInt_AsLong(PyList_GetItem(loss, i)); 
+      lloss_c[i] = (uint) PyLong_AsLong(PyList_GetItem(loss, i));
     lloss_ptr = &lloss_c;
   }
   beam->InitBeamFromDistribution(x_c, xp_c, y_c, yp_c, phi_c, w_c, loss_ptr, lloss_ptr);
@@ -1433,51 +1433,50 @@ static PyMemberDef BeamMembers[] = {
 };
 
 static PyTypeObject Beam_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0, /*ob_size*/
-    "Beam", /*tp_name*/
-    sizeof(CPPClassObject), /*tp_basicsize*/
-    0, /*tp_itemsize*/
-    (destructor) BeamDel, /*tp_dealloc*/
-    0, /*tp_print*/
-    0, /*tp_getattr*/
-    0, /*tp_setattr*/
-    0, /*tp_compare*/
-    0, /*tp_repr*/
-    0, /*tp_as_number*/
-    0, /*tp_as_sequence*/
-    0, /*tp_as_mapping*/
-    0, /*tp_hash */
-    0, /*tp_call*/
-    0, /*tp_str*/
-    0, /*tp_getattro*/
-    0, /*tp_setattro*/
-    0, /*tp_as_buffer*/
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "Beam",                         /* tp_name */
+    sizeof(CPPClassObject),               /* tp_basicsize */
+    0,                              /* tp_itemsize */
+    (destructor)BeamDel,            /* tp_dealloc */
+    0,                              /* tp_vectorcall_offset */
+    0,                              /* tp_getattr */
+    0,                              /* tp_setattr */
+    0,                              /* tp_as_async */
+    0,                              /* tp_repr */
+    0,                              /* tp_as_number */
+    0,                              /* tp_as_sequence */
+    0,                              /* tp_as_mapping */
+    0,                              /* tp_hash */
+    0,                              /* tp_call */
+    0,                              /* tp_str */
+    0,                              /* tp_getattro */
+    0,                              /* tp_setattro */
+    0,                              /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /*tp_flags*/
-    beam_init__doc__, /* tp_doc */
-    0, /* tp_traverse */
-    0, /* tp_clear */
-    0, /* tp_richcompare */
-    0, /* tp_weaklistoffset */
-    0, /* tp_iter */
-    0, /* tp_iternext */
-    BeamMethods, /* tp_methods */
-    BeamMembers, /* tp_members */
-    0, /* tp_getset */
-    0, /* tp_base */
-    0, /* tp_dict */
-    0, /* tp_descr_get */
-    0, /* tp_descr_set */
-    0, /* tp_dictoffset */
-    (initproc) BeamInit, /* tp_init */
-    0, /* tp_alloc */
-    BeamNew, /* tp_new */
+    beam_init__doc__,               /* tp_doc */
+    0,                              /* tp_traverse */
+    0,                              /* tp_clear */
+    0,                              /* tp_richcompare */
+    0,                              /* tp_weaklistoffset */
+    0,                              /* tp_iter */
+    0,                              /* tp_iternext */
+    BeamMethods,                    /* tp_methods */
+    BeamMembers,                              /* tp_members */
+    0,                              /* tp_getset */
+    0,                              /* tp_base */
+    0,                              /* tp_dict */
+    0,                              /* tp_descr_get */
+    0,                              /* tp_descr_set */
+    0,                              /* tp_dictoffset */
+    (initproc) BeamInit,            /* tp_init */
+    0,                              /* tp_alloc */
+    BeamNew,                      /* tp_new */
 };
 
 PyMODINIT_FUNC initBeam(PyObject* module)
 {
   import_array();
-  if(PyType_Ready(&Beam_Type) < 0) return;
+  if(PyType_Ready(&Beam_Type) < 0) return NULL;
   Py_INCREF(&Beam_Type);
   PyModule_AddObject(module, "Beam", (PyObject*)&Beam_Type);
 }

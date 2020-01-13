@@ -44,7 +44,7 @@ static int BeamLineInit(CPPClassObject* self, PyObject* args, PyObject* kwds)
 static void BeamLineDel(CPPClassObject* self)
 {
   delete (BeamLine*)(self->cpp_obj);
-  self->ob_type->tp_free((PyObject*) self);
+  Py_TYPE(self)->tp_free((PyObject*) self);
 }
 
 PyDoc_STRVAR(print_out__doc__, 
@@ -102,7 +102,7 @@ static PyObject* BeamLineGetElementNames(PyObject* self, PyObject* args, PyObjec
   {
     PyObject* elem_lst = PyList_New(names.size());
     for(int i = 0; i < names.size(); ++i)
-    PyList_SetItem(elem_lst, i, PyString_FromString(names[i].c_str()));
+    PyList_SetItem(elem_lst, i, PyBytes_FromString(names[i].c_str()));
     return elem_lst;
   }
   Py_INCREF(Py_None);
@@ -120,8 +120,7 @@ static PyMemberDef BeamLineMembers[] = {
 };
 
 static PyTypeObject BeamLine_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0, /*ob_size*/
+    PyVarObject_HEAD_INIT(NULL, 0)
     "BeamLine", /*tp_name*/
     sizeof(CPPClassObject), /*tp_basicsize*/
     0, /*tp_itemsize*/
@@ -163,7 +162,7 @@ static PyTypeObject BeamLine_Type = {
 
 PyMODINIT_FUNC initBeamLine(PyObject* module)
 {
-  if(PyType_Ready(&BeamLine_Type) < 0) return;
+  if(PyType_Ready(&BeamLine_Type) < 0) return NULL;
   Py_INCREF(&BeamLine_Type);
   PyModule_AddObject(module, "BeamLine", (PyObject*)&BeamLine_Type);
 }
