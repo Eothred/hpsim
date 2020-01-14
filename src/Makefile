@@ -24,7 +24,7 @@ compile:
 #../bin/PyEPICS.so: server/obj/pyepics_module.o server/obj/ca_check.o
 #	$(CC)  $(LDFLAGS) $(EPICS_LD_FLAGS) -shared -o $@ $^
 ../db/lib/libsqliteext.so: 
-	gcc -shared -o ../db/lib/libsqliteext.so ../db/lib/extension-functions.c -lm
+	gcc -shared -fPIC -o ../db/lib/libsqliteext.so ../db/lib/extension-functions.c -lm
 
 clean:
 	@for d in $(DIR); \
