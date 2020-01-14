@@ -24,7 +24,7 @@ pkg_dir = os.path.join(par_dir,"pylib") #HPSim related packages
 sys.path.append(pkg_dir)
 
 #import various packages
-import HPSim as HPSim
+import HPSim
 import numpy as np
 #from mpl_toolkits.mplot3d import Axes3D
 #from matplotlib.collections import PolyCollection
