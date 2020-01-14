@@ -306,7 +306,7 @@ static PyTypeObject SpaceCharge_Type = {
     SpaceChargeNew, /* tp_new */
 };
 
-PyMODINIT_FUNC initSpaceCharge(PyObject* module)
+PyMODINIT_FUNC PyInit_SpaceCharge(PyObject* module)
 {
   if(PyType_Ready(&SpaceCharge_Type) < 0) return NULL;
   Py_INCREF(&SpaceCharge_Type);

@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-PyMODINIT_FUNC initPyEPICS();
+PyMODINIT_FUNC PyInit_PyEPICS();
 //PyObject* getPyEPICSType(char* name);
 
 #ifdef _cplusplus

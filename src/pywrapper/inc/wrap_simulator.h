@@ -5,7 +5,7 @@
 #ifdef _cplusplus
 extern "C" {
 #endif
-PyMODINIT_FUNC initSimulator(PyObject* module);
+PyMODINIT_FUNC PyInit_Simulator(PyObject* module);
 #ifdef _cplusplus
 }
 #endif

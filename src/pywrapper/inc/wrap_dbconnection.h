@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-PyMODINIT_FUNC initDBConnection(PyObject* module);
+PyMODINIT_FUNC PyInit_DBConnection(PyObject* module);
 
 #ifdef _cplusplus
 }

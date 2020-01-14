@@ -419,15 +419,15 @@ static struct PyModuleDef HPSimModuleDef = {
     NULL
 };
 
-PyMODINIT_FUNC initHPSim()
+PyMODINIT_FUNC PyInit_HPSim()
 {
   PyObject* module = PyModule_Create(&HPSimModuleDef);
   import_array();
-  initBeam(module);
-  initDBConnection(module);
-  initBeamLine(module);
-  initSimulator(module);
-  initSpaceCharge(module);
+  PyInit_Beam(module);
+  PyInit_DBConnection(module);
+  PyInit_BeamLine(module);
+  PyInit_Simulator(module);
+  PyInit_SpaceCharge(module);
 }
 
 PyObject* getHPSimType(char* name)

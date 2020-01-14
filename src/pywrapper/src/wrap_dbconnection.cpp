@@ -193,7 +193,7 @@ static PyTypeObject DBConnection_Type = {
     DBConnectionNew, /* tp_new */
 };
 
-PyMODINIT_FUNC initDBConnection(PyObject* module)
+PyMODINIT_FUNC PyInit_DBConnection(PyObject* module)
 {
   if(PyType_Ready(&DBConnection_Type) < 0) return NULL;
   Py_INCREF(&DBConnection_Type);

@@ -1473,7 +1473,7 @@ static PyTypeObject Beam_Type = {
     BeamNew,                      /* tp_new */
 };
 
-PyMODINIT_FUNC initBeam(PyObject* module)
+PyMODINIT_FUNC PyInit_Beam(PyObject* module)
 {
   import_array();
   if(PyType_Ready(&Beam_Type) < 0) return NULL;

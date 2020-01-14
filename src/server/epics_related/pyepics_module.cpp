@@ -44,7 +44,7 @@ static PyMethodDef PyEPICSModuleMethods[]={
   {NULL}
 };
 
-PyMODINIT_FUNC initPyEPICS()
+PyMODINIT_FUNC PyInit_PyEPICS()
 {
   PyObject* module = Py_InitModule("PyEPICS", PyEPICSModuleMethods);
 }

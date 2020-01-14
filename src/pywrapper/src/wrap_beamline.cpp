@@ -160,7 +160,7 @@ static PyTypeObject BeamLine_Type = {
     BeamLineNew, /* tp_new */
 };
 
-PyMODINIT_FUNC initBeamLine(PyObject* module)
+PyMODINIT_FUNC PyInit_BeamLine(PyObject* module)
 {
   if(PyType_Ready(&BeamLine_Type) < 0) return NULL;
   Py_INCREF(&BeamLine_Type);

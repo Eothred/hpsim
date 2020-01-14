@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-PyMODINIT_FUNC initBeam(PyObject* module);
+PyMODINIT_FUNC PyInit_Beam(PyObject* module);
 
 #ifdef _cplusplus
 }

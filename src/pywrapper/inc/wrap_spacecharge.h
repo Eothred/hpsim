@@ -5,7 +5,7 @@
 #ifdef _cplusplus
 extern "C" {
 #endif
-PyMODINIT_FUNC initSpaceCharge(PyObject* module);
+PyMODINIT_FUNC PyInit_SpaceCharge(PyObject* module);
 #ifdef _cplusplus
 }
 #endif

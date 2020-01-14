@@ -172,7 +172,7 @@ static PyTypeObject Simulator_Type = {
     SimulatorNew, /* tp_new */
 };
 
-PyMODINIT_FUNC initSimulator(PyObject* module)
+PyMODINIT_FUNC PyInit_Simulator(PyObject* module)
 {
   if(PyType_Ready(&Simulator_Type) < 0) return NULL;
   Py_INCREF(&Simulator_Type);
